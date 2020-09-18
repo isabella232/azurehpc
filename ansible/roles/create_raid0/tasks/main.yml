@@ -1,0 +1,7 @@
+---
+
+- name: Run Create RAID0 script
+  script: "{{azhpc_dir}}/scripts/create_raid0.sh {{ azhpc_create_raid0_args }}"
+  args:
+    creates: /etc/mdadm.conf
+

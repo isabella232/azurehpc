@@ -12,6 +12,7 @@ cat <<EOF > $DIR/group_vars/all.yml
 ---
 
 ansible_ssh_common_args: '-o ProxyCommand="ssh -q -i $private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p $remote_user@$ssh_bastion"'
+azhpc_dir: $azhpc_dir
 EOF
 
 # Add the roles path

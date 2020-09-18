@@ -1,0 +1,18 @@
+---
+
+- name: Create a {{azhpc_make_filesystem_fstype}} filesystem on {{azhpc_make_filesystem_device}} 
+  filesystem:
+    fstype: "{{azhpc_make_filesystem_fstype}}"
+    dev: "{{azhpc_make_filesystem_device}}"
+
+- name: Retrieve the UUID of {{azhpc_make_filesystem_device}}
+  shell: blkid | grep {{azhpc_make_filesystem_device}} | cut -d " " -f 2 | cut -c 7-42
+  register: device_uuid
+
+- name: Mount up device by UUID={{device_uuid.stdout}}
+  mount:
+    path: "{{azhpc_make_filesystem_mount}}"
+    src: UUID={{device_uuid.stdout}}
+    fstype: "{{azhpc_make_filesystem_fstype}}"
+    opts: noatime,nodiratime,nobarrier,nofail,attr2,inode64
+    state: mounted

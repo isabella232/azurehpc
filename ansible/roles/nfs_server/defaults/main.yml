@@ -1,6 +1,8 @@
 ---
-azhpc_nfs_exports: ["/share/apps *(rw,sync,no_root_squash)", 
-              "/share/data *(rw,sync,no_root_squash)", 
-              "/share/home *(rw,sync,no_root_squash)", 
-              "/mnt/resource/scratch  *(rw,sync,no_root_squash)"]
+azhpc_nfs_exports: ["{{azhpc_nfs_default_share}}/apps {{azhpc_nfs_default_mount_options}}", 
+              "{{azhpc_nfs_default_share}}/data {{azhpc_nfs_default_mount_options}}", 
+              "{{azhpc_nfs_default_share}}/home {{azhpc_nfs_default_mount_options}}", 
+              "/mnt/resource/scratch  {{azhpc_nfs_default_mount_options}}"]
 
+azhpc_nfs_default_mount_options: "*(rw,sync,no_root_squash)"
+azhpc_nfs_default_share: /share

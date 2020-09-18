@@ -41,6 +41,8 @@
             "storage_sku": "Premium_LRS",
             "tags": [
                 "common",
+                "create_raid0",
+                "make_filesystem",
                 "nfs_server",
                 "localuser",
                 "pbsserver"
@@ -83,7 +85,11 @@
             "script": "ansible-add-variables.sh",
             "args": [
                 "azhpc_nfs_server=headnode",
-                "azhpc_pbs_server=headnode"
+                "azhpc_pbs_server=headnode",
+                "azhpc_create_raid0_args=/dev/md10 /dev/sd[c-d]",
+                "azhpc_make_filesystem_fstype=xfs",
+                "azhpc_make_filesystem_device=/dev/md10",
+                "azhpc_make_filesystem_mount=/share"
             ]
         },
         {

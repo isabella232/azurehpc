@@ -1,0 +1,3 @@
+azhpc_make_filesystem_fstype: "xfs"
+azhpc_make_filesystem_device: ""
+azhpc_make_filesystem_mount: "/share"
