@@ -18,5 +18,5 @@ EOF
 
 cat <<EOF > $DIR/../ansible.cfg
 [defaults]
-roles_path = $DIR/../../scripts/roles
+roles_path = $azhpc_dir/ansible/roles
 EOF

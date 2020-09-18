@@ -64,7 +64,7 @@
     "install": [
         {
             "type": "local_script",
-            "script": "configure-ansible.sh",
+            "script": "ansible-configure.sh",
             "args": [
                 "../{{variables.admin_user}}_id_rsa",
                 "variables.admin_user",
@@ -73,30 +73,22 @@
         },
         {
             "type": "local_script",
-            "script": "create-playbook.sh",
+            "script": "ansible-create-playbook.sh",
             "args": [
                 "config.json"
             ]
         },
         {
             "type": "local_script",
-            "script": "add-ansible-variable.sh",
+            "script": "ansible-add-variables.sh",
             "args": [
-                "azhpc_nfs_server",
-                "headnode"
+                "azhpc_nfs_server=headnode",
+                "azhpc_pbs_server=headnode"
             ]
         },
         {
             "type": "local_script",
-            "script": "add-ansible-variable.sh",
-            "args": [
-                "azhpc_pbs_server",
-                "headnode"
-            ]
-        },
-        {
-            "type": "local_script",
-            "script": "run-playbook.sh",
+            "script": "ansible-run-playbook.sh",
             "args": [
                 "hostlists/linux",
                 "../{{variables.admin_user}}_id_rsa",
