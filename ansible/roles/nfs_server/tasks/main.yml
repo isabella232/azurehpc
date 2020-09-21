@@ -33,7 +33,7 @@
 - name: Create symbolic links for exported shares
   file: 'src="{{ item.strip().split()[0] }}" dest="{{ item.strip().split()[2] }}" state=link mode=777'
   loop: "{{ azhpc_nfs_exports }}"
-  when: '"{{item.strip().split()[2]}}" != "/home"'
+  when: '"item.strip().split()[2]" != "/home"'
 
 - name: Copy exports file.
   template:
