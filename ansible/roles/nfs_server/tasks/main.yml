@@ -30,6 +30,11 @@
   file: 'path="{{ item.strip().split()[0] }}" state=directory mode=777'
   loop: "{{ azhpc_nfs_exports }}"
 
+- name: Create symbolic links for exported shares
+  file: 'src="{{ item.strip().split()[0] }}" dest="{{ item.strip().split()[2] }}" state=link mode=777'
+  loop: "{{ azhpc_nfs_exports }}"
+  when: "{{item.strip().split()[2]}} != /home"
+
 - name: Copy exports file.
   template:
     src: exports.j2
