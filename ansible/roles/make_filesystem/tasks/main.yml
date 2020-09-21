@@ -16,3 +16,9 @@
     fstype: "{{azhpc_make_filesystem_fstype}}"
     opts: noatime,nodiratime,nobarrier,nofail,attr2,inode64
     state: mounted
+
+- name: set 777 mode on {{azhpc_make_filesystem_mount}}
+  file:
+    path: "{{azhpc_make_filesystem_mount}}"
+    state: directory
+    mode: '777'

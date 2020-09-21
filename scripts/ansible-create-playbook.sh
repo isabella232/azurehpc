@@ -22,6 +22,7 @@ for resource_name in $(jq -r ".resources | keys_unsorted | @tsv" $config_file); 
         vm)
 cat <<EOF >> $PLAYBOOK
   - hosts: $resource_name
+    gather_facts: no
     become: true
     roles:
 EOF
@@ -29,6 +30,7 @@ EOF
         vmss)
 cat <<EOF >> $PLAYBOOK
   - hosts: ${resource_name}*
+    gather_facts: no
     become: true
     roles:
 EOF
