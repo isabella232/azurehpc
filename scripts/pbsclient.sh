@@ -6,7 +6,18 @@ pbs_server=$1
 
 if [ "$(rpm -qa pbspro-execution)" = "" ];then
     yum install -y jq
-    yum install -y pbspro-execution-19.1.1-0.x86_64.rpm
+    rpm=pbspro-execution-19.1.1-0.x86_64.rpm
+
+    if [ -e $rpm ]; then
+        yum install -y $rpm
+    else
+        if [ -e pbspro_19.1.1.centos7/$rpm ]; then
+            yum install -y pbspro_19.1.1.centos7/$rpm
+        else
+            echo "RPM not found"
+            exit 1
+        fi
+    fi
 
     sed -i "s/CHANGE_THIS_TO_PBS_PRO_SERVER_HOSTNAME/${pbs_server}/g" /etc/pbs.conf
     sed -i "s/CHANGE_THIS_TO_PBS_PRO_SERVER_HOSTNAME/${pbs_server}/g" /var/spool/pbs/mom_priv/config
