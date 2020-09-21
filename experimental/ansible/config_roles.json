@@ -10,7 +10,7 @@
         "location": "<NOT-SET>",
         "resource_group": "<NOT-SET>",
         "vm_type": "<NOT-SET>",
-        "compute_instances": 4,
+        "compute_instances": 2,
         "low_priority": false,
         "vnet_resource_group": "variables.resource_group"
     },
@@ -40,13 +40,12 @@
             ],
             "storage_sku": "Premium_LRS",
             "tags": [
-                "cndefault",
-                "nfsserver",
-                "pbsdownload",
-                "pbsserver",
-                "loginnode",
+                "common",
+                "create_raid0",
+                "make_filesystem",
+                "nfs_server",
                 "localuser",
-                "disable-selinux"
+                "pbsserver"
             ]
         },
         "compute": {
@@ -57,21 +56,14 @@
             "image": "variables.hpc_image",
             "subnet": "compute",
             "tags": [
-                "nfsclient",
-                "pbsdownload",
-                "pbsclient",
-                "cndefault",
+                "common",
+                "nfs_mount",
                 "localuser",
-                "disable-selinux"
+                "pbsclient"
             ]
         }
     },
     "install": [
-        {
-            "type": "local_script",
-            "script": "create_inventory.sh",
-            "args": ["scripts/inventory"]
-        },
         {
             "type": "local_script",
             "script": "ansible-configure.sh",
@@ -83,13 +75,31 @@
         },
         {
             "type": "local_script",
+            "script": "ansible-create-playbook.sh",
+            "args": [
+                "config.json"
+            ]
+        },
+        {
+            "type": "local_script",
+            "script": "ansible-add-variables.sh",
+            "args": [
+                "azhpc_nfs_server=headnode",
+                "azhpc_pbs_server=headnode",
+                "azhpc_create_raid0_args=/dev/md10 /dev/sd[c-d]",
+                "azhpc_make_filesystem_fstype=xfs",
+                "azhpc_make_filesystem_device=/dev/md10",
+                "azhpc_make_filesystem_mount=/share"
+            ]
+        },
+        {
+            "type": "local_script",
             "script": "ansible-run-playbook.sh",
             "args": [
-                "scripts/inventory",
+                "hostlists/linux",
                 "../{{variables.admin_user}}_id_rsa",
                 "variables.admin_user"
-            ],
-            "deps": ["playbook.yml"]
+            ]
         }
     ]
 }

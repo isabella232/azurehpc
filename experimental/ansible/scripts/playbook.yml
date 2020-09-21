@@ -1,0 +1,65 @@
+---
+
+- hosts: disable-selinux
+  gather_facts: no
+  tasks:
+  - name: Run disable-selinux.sh
+    script: '{{azhpc_dir}}/scripts/disable-selinux.sh'
+    become: true
+
+- hosts: cndefault
+  gather_facts: no
+  tasks:
+  - name: Run cndefault.sh
+    script: '{{azhpc_dir}}/scripts/cndefault.sh'
+    become: true
+
+- hosts: nfsserver
+  gather_facts: no
+  tasks:
+  - name: Run create_raid0.sh
+    script: '{{azhpc_dir}}/scripts/create_raid0.sh "/dev/md10" "/dev/sd[c-d]"'
+    become: true
+  - name: Run make_filesystem.sh
+    script: '{{azhpc_dir}}/scripts/make_filesystem.sh "/dev/md10" "xfs" "/share"'
+    become: true
+  - name: Run install-nfsserver.sh
+    script: '{{azhpc_dir}}/scripts/install-nfsserver.sh "/share"'
+    become: true
+
+- hosts: nfsclient
+  gather_facts: no
+  tasks:
+  - name: Run nfsclient.sh
+    script: '{{azhpc_dir}}/scripts/nfsclient.sh headnode'
+    become: true
+
+- hosts: localuser
+  gather_facts: no
+  tasks:
+  - name: Run localuser.sh
+    script: '{{azhpc_dir}}/scripts/localuser.sh headnode'
+    become: true
+
+- hosts: pbsdownload
+  gather_facts: no
+  tasks:
+  - name: Run pbsdownload.sh
+    script: '{{azhpc_dir}}/scripts/pbsdownload.sh'
+    become: true
+
+- hosts: pbsserver
+  gather_facts: no
+  tasks:
+  - name: Run pbsserver.sh
+    script: '{{azhpc_dir}}/scripts/pbsserver.sh'
+    become: true
+
+- hosts: pbsclient
+  gather_facts: no
+  tasks:
+  - name: Run pbsclient.sh
+    script: '{{azhpc_dir}}/scripts/pbsclient.sh headnode'
+    become: true
+
+...
