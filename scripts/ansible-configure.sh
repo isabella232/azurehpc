@@ -16,7 +16,11 @@ azhpc_dir: $azhpc_dir
 EOF
 
 # Add the roles path
-
+# TODO : 
+# Test with the free strategy 
+# strategy = free
+# Increase the number of forks
+# forks = 30
 cat <<EOF > $DIR/../ansible.cfg
 [defaults]
 roles_path = $azhpc_dir/ansible/roles

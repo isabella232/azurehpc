@@ -25,7 +25,7 @@ pool: Default
 variables:
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # configuration file to use
-  azhpc.config: experimental/ansible/config.json
+  azhpc.config: experimental/ansible/config-roles.json
   # pipeline directory
   azhpc.pipeline_dir: experimental/ansible
   # destination of scripts. Default is hpcuser@headnode:/apps

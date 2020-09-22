@@ -1,0 +1,63 @@
+---
+
+- hosts: common
+  gather_facts: no
+  become: true
+  tasks:
+    - include_role:
+        name : common
+
+- hosts: nfsserver
+  gather_facts: no
+  become: true
+  tasks:
+    - include_role: 
+        name: create_raid0
+      vars:
+        azhpc_create_raid0_args: "/dev/md10 /dev/sd[c-d]"
+    - include_role: 
+        name : make_filesystem
+      vars:
+        azhpc_make_filesystem_fstype: xfs
+        azhpc_make_filesystem_device: /dev/md10
+        azhpc_make_filesystem_mount: /share
+    - include_role: 
+        name: nfs_server
+      vars:
+        azhpc_nfs_default_share: /share
+
+- hosts: nfsclient
+  gather_facts: no
+  become: true
+  tasks:
+  - include_role:
+      name: nfs_mount
+    vars: 
+      azhpc_nfs_server: headnode
+
+- hosts: localuser
+  gather_facts: no
+  become: true
+  tasks:
+  - include_role: 
+      name: localuser
+    vars:
+      azhpc_nfs_server: headnode
+
+- hosts: pbsserver
+  gather_facts: no
+  become: true
+  tasks:
+  - include_role:
+      name: pbsserver
+
+- hosts: pbsclient
+  gather_facts: no
+  become: true
+  tasks:
+  - include_role:
+      name: pbsclient
+    vars:
+      azhpc_pbs_server: headnode
+
+...

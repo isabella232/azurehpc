@@ -40,13 +40,11 @@
             ],
             "storage_sku": "Premium_LRS",
             "tags": [
-                "cndefault",
+                "common",
                 "nfsserver",
-                "pbsdownload",
                 "pbsserver",
                 "loginnode",
-                "localuser",
-                "disable-selinux"
+                "localuser"
             ]
         },
         "compute": {
@@ -57,19 +55,17 @@
             "image": "variables.hpc_image",
             "subnet": "compute",
             "tags": [
+                "common",
                 "nfsclient",
-                "pbsdownload",
                 "pbsclient",
-                "cndefault",
-                "localuser",
-                "disable-selinux"
+                "localuser"
             ]
         }
     },
     "install": [
         {
             "type": "local_script",
-            "script": "create_inventory.sh",
+            "script": "ansible-create-inventory.sh",
             "args": ["scripts/inventory"]
         },
         {
@@ -87,9 +83,10 @@
             "args": [
                 "scripts/inventory",
                 "../{{variables.admin_user}}_id_rsa",
-                "variables.admin_user"
+                "variables.admin_user",
+                "scripts/playbook-roles.yml"
             ],
-            "deps": ["playbook.yml"]
+            "deps": ["playbook-roles.yml"]
         }
     ]
 }
