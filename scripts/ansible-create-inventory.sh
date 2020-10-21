@@ -5,6 +5,7 @@ INVENTORY_FILE=${1-inventory}
 # file_content
 #
 
+rm -f $INVENTORY_FILE
 for file in hostlists/tags/*; do 
     if [ -f "$file" ]; then 
         base=$(basename $file)

@@ -14,4 +14,7 @@ if [ -n "$private_key" ]; then
 else
     key_options=""
 fi
+if ! rpm -q ansible; then
+    sudo yum install -y ansible
+fi
 ansible-playbook -v $key_options -i $inventory $playbook

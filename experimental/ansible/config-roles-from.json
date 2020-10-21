@@ -1,0 +1,95 @@
+{
+    "location": "variables.location",
+    "resource_group": "variables.resource_group",
+    "install_from": "variables.install_from",
+    "admin_user": "variables.admin_user",
+    "variables": {
+        "hpc_image": "OpenLogic:CentOS-HPC:7.7:latest",
+        "admin_user": "hpcadmin",
+        "install_from": "headnode",
+        "location": "<NOT-SET>",
+        "resource_group": "<NOT-SET>",
+        "vm_type": "<NOT-SET>",
+        "compute_instances": 4,
+        "low_priority": false,
+        "vnet_resource_group": "variables.resource_group"
+    },
+    "vnet": {
+        "resource_group": "variables.vnet_resource_group",
+        "name": "hpcvnet",
+        "address_prefix": "10.2.0.0/20",
+        "subnets": {
+            "admin": "10.2.1.0/24",
+            "netapp": "10.2.2.0/24",
+            "storage": "10.2.3.0/24",
+            "viz": "10.2.4.0/24",
+            "compute": "10.2.8.0/22"
+        }
+    },
+    "resources": {
+        "headnode": {
+            "type": "vm",
+            "vm_type": "Standard_D8s_v3",
+            "accelerated_networking": true,
+            "public_ip": true,
+            "image": "variables.hpc_image",
+            "subnet": "admin",
+            "data_disks": [
+                1024,
+                1024
+            ],
+            "storage_sku": "Premium_LRS",
+            "tags": [
+                "ansible",
+                "common",
+                "nfsserver",
+                "pbsserver",
+                "loginnode",
+                "localuser"
+            ]
+        },
+        "compute": {
+            "type": "vmss",
+            "vm_type": "variables.vm_type",
+            "instances": "variables.compute_instances",
+            "low_priority": "variables.low_priority",
+            "image": "variables.hpc_image",
+            "subnet": "compute",
+            "tags": [
+                "common",
+                "nfsclient",
+                "pbsclient",
+                "localuser"
+            ]
+        }
+    },
+    "install": [
+        {
+            "tag": "ansible",
+            "script": "azhpc-clone.sh",
+            "args": ["ansible_sprint1"]
+        },
+        {
+            "tag": "ansible",
+            "script": "ansible-create-inventory.sh",
+            "args": ["scripts/inventory"]
+        },
+        {
+            "tag": "ansible",
+            "script": "ansible-configure.sh",
+            "args": [
+            ]
+        },
+        {
+            "tag": "ansible",
+            "script": "ansible-run-playbook.sh",
+            "args": [
+                "scripts/inventory",
+                "{{variables.admin_user}}_id_rsa",
+                "variables.admin_user",
+                "scripts/playbook-roles.yml"
+            ],
+            "deps": ["playbook-roles.yml"]
+        }
+    ]
+}
