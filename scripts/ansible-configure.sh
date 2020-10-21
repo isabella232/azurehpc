@@ -31,4 +31,5 @@ cat <<EOF > $DIR/../ansible.cfg
 [defaults]
 roles_path = $azhpc_dir/ansible/roles
 forks = 128
+strategy = free
 EOF
