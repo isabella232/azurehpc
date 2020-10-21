@@ -35,7 +35,7 @@ variables:
 # Uncomment and set values below, or leave commented and thru pipeline variables
   azhpc.variables.location: westeurope
   azhpc.variables.vm_type: Standard_HC44rs
-  azhpc.variables.compute_instances: 4
+  azhpc.variables.compute_instances: 32
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
