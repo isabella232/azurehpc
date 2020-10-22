@@ -87,9 +87,9 @@
                 "scripts/inventory",
                 "{{variables.admin_user}}_id_rsa",
                 "variables.admin_user",
-                "scripts/playbook-roles.yml"
+                "scripts/playbook-roles-bytags.yml"
             ],
-            "deps": ["playbook-roles.yml"]
+            "deps": ["playbook-roles-bytags.yml"]
         }
     ]
 }
