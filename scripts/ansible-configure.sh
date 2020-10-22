@@ -26,4 +26,5 @@ cat <<EOF > $DIR/../ansible.cfg
 roles_path = $azhpc_dir/ansible/roles
 forks = 128
 strategy = free
+callback_whitelist = profile_roles 
 EOF
